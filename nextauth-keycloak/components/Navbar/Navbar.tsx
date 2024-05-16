@@ -18,6 +18,9 @@ export const Navbar = () => {
           <Link className="navbar-item" href={"/secure-page-visible"}>
             Secured Page but visible
           </Link>
+          <Link className="navbar-item" href={"/secure-page-visible-by-middleware"}>
+            Secured Page w/Middleware
+          </Link>
           {status == "authenticated" && (
             <Link className="navbar-item" href={"/secure-page"}>
               Secured Page
