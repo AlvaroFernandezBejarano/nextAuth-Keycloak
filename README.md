@@ -1,12 +1,22 @@
-# Next-js + Next-auth + keycloak v21 with Role base access control example & demo
+# Next-js + Next-auth + keycloak with Role base access control example & demo.
+
+This repo is a collection of custom implementation to add Role Base Access control to the widespread [Next-auth](https://github.com/nextauthjs/next-auth) library.
+
+It kinda bugged me that there are so little updated info on next-auth with keycloak as a provider, and even less when I checked that roles were even left out of the session obj and you could not easily set a Role base access control! (I must say that this changed a lot in recent times!)
+
+Check the repo depending what version you want!
+
+| nextjs version | next-auth version | next-auth logic | Middleware support | repo branch |
+| --- | --- | --- | --- | --- |
+| +14 | v4 |  /app | :heavy_check_mark: | main |
+| 13.4.19 | v3 |  /pages | :x: | nextjsv13.4.19-keycloakv21.1.1 |
 
 
-This is a example ready to deploy with docker of implementing toghether next-auth and keycloak v21+ and setting a base for a role base access control on your next-js app.
+### This demo has too the logout redirect fixed for keycloak v21+!
 
+Check the `api/auth/logout` (both `/app` & `/page` dirs!) for more info on that.
 
-It kinda bugged me that there are so little updated info on next-auth with keycloak as a provider, and even less when I checked that roles were even left out of the session obj and you could not easily set a Role base access control! 
-
-This demo has too the logout redirect fixed for keycloak v21+!
+I probably will add how to make a direct logout without redirecting to keycloak soon
 
 # &#x1F4BB; Deploy
 
@@ -18,10 +28,10 @@ The components in this demo are:
 
 Developed & tested on:
 
-- Node.js v16.20.0
-- npm v8.19.4
-- Docker v24.0.2
-- docker-compose v1.27.4
+- Node.js v22.1.0
+- npm v10.7.0
+- Docker v26.1.1
+- docker compose v2.27.0
 
 I sneaked [BulmaCSS](https://bulma.io/) on the project because it's simple, light and is one of my favorites CSS frameworks. I would recommend you to check it out!
 
@@ -29,10 +39,10 @@ I sneaked [BulmaCSS](https://bulma.io/) on the project because it's simple, ligh
 
 ## Deployment
 
-Clone the git repo:
+Clone the git repo (do not forget to change to your desired branch!):
 
 ```cmd
-git clone https://github.com/AlvaroFernandezBejarano/nextAuth-keycloakV21.git
+git clone https://github.com/nextauthjs/next-auth
 ```
 
 Then use docker-compose to start the container of keycloak.
@@ -75,6 +85,9 @@ This example/demo features a next.js app that serves:
 - A `secure but visible` page, that will redirect to `home` if not authorized.
 - A `secured` page, not visible on the navbar unless authorized. Will redirect to `home` if not authorized.
 - A `secured by role` page, not visible on the navbar unless authorized. Will redirect to a special `no role required` page if user doesn't have the required role.
+- A `secure page visible secured by middleware` page that uses the new functionality supported by nextAuth to secure your app using a middleware. This page is visible by anyone, on trying to access without user, will redirect to the default `logIn` logic of your app (your `[nextauth...]`), and if you're logged in with a user, will check if you have the correct role, if not will be redirected to a a special `no role required` page.
+For now there is a bug where if you access to the page wihout user, and logIn, the redirect will fail. Will try to fix these.
+
 - A custom `logout` to fix the error of "next-auth logout doesn't close the keycloak session" to keycloak v21+.
 
 Keycloak already comes with a realm and users set.
